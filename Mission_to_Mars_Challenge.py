@@ -3,10 +3,11 @@
   {
    "cell_type": "code",
    "execution_count": 1,
+   "id": "c6ebf810",
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Import Splinter, BeautifulSoup, and Pandas\n",
+    "# Import Splinter and BeautifulSoup\n",
     "from splinter import Browser\n",
     "from bs4 import BeautifulSoup as soup\n",
     "import pandas as pd\n",
@@ -16,6 +17,7 @@
   {
    "cell_type": "code",
    "execution_count": 2,
+   "id": "bfdde1e1",
    "metadata": {},
    "outputs": [
     {
@@ -33,21 +35,14 @@
     }
    ],
    "source": [
-    "# Set the executable path and initialize Splinter\n",
     "executable_path = {'executable_path': ChromeDriverManager().install()}\n",
     "browser = Browser('chrome', **executable_path, headless=False)"
    ]
   },
   {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "### Visit the NASA Mars News Site"
-   ]
-  },
-  {
    "cell_type": "code",
    "execution_count": 3,
+   "id": "15cf4a06",
    "metadata": {},
    "outputs": [
     {
@@ -63,9 +58,8 @@
    ],
    "source": [
     "# Visit the mars nasa news site\n",
-    "url = 'https://redplanetscience.com/'\n",
+    "url = 'https://redplanetscience.com'\n",
     "browser.visit(url)\n",
-    "\n",
     "# Optional delay for loading the page\n",
     "browser.is_element_present_by_css('div.list_text', wait_time=1)"
    ]
@@ -73,25 +67,25 @@
   {
    "cell_type": "code",
    "execution_count": 4,
+   "id": "7a7c4ccc",
    "metadata": {},
    "outputs": [],
    "source": [
-    "# Convert the browser html to a soup object and then quit the browser\n",
     "html = browser.html\n",
     "news_soup = soup(html, 'html.parser')\n",
-    "\n",
     "slide_elem = news_soup.select_one('div.list_text')"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 5,
+   "id": "00042788",
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "<div class=\"content_title\">NASA Engineers Checking InSight's Weather Sensors</div>"
+       "<div class=\"content_title\">Mars InSight Lander to Push on Top of the 'Mole'</div>"
       ]
      },
      "execution_count": 5,
@@ -106,12 +100,13 @@
   {
    "cell_type": "code",
    "execution_count": 6,
+   "id": "f7717bdb",
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "\"NASA Engineers Checking InSight's Weather Sensors\""
+       "\"Mars InSight Lander to Push on Top of the 'Mole'\""
       ]
      },
      "execution_count": 6,
@@ -120,7 +115,7 @@
     }
    ],
    "source": [
-    "# Use the parent element to find the first a tag and save it as `news_title`\n",
+    "# Use the parent element to find the first `a` tag and save it as `news_title`\n",
     "news_title = slide_elem.find('div', class_='content_title').get_text()\n",
     "news_title"
    ]
@@ -128,12 +123,13 @@
   {
    "cell_type": "code",
    "execution_count": 7,
+   "id": "3748f8e0",
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "'An electronics issue is suspected to be preventing the sensors from sharing their data about Mars weather with the spacecraft.'"
+       "'Engineers have a plan for pushing down on the heat probe, which has been stuck at the Martian surface for a year.'"
       ]
      },
      "execution_count": 7,
@@ -149,14 +145,16 @@
   },
   {
    "cell_type": "markdown",
+   "id": "9362bbfd",
    "metadata": {},
    "source": [
-    "### JPL Space Images Featured Image"
+    "### Featured Images"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 8,
+   "id": "7c1a1b9e",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -168,6 +166,7 @@
   {
    "cell_type": "code",
    "execution_count": 9,
+   "id": "52b88453",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -179,9 +178,8 @@
   {
    "cell_type": "code",
    "execution_count": 10,
-   "metadata": {
-    "scrolled": true
-   },
+   "id": "d8d50c7f",
+   "metadata": {},
    "outputs": [
     {
      "data": {
@@ -407,6 +405,7 @@
   {
    "cell_type": "code",
    "execution_count": 11,
+   "id": "c2216eb6",
    "metadata": {},
    "outputs": [
     {
@@ -421,7 +420,7 @@
     }
    ],
    "source": [
-    "# find the relative image url\n",
+    "# Find the relative image url\n",
     "img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')\n",
     "img_url_rel"
    ]
@@ -429,6 +428,7 @@
   {
    "cell_type": "code",
    "execution_count": 12,
+   "id": "74ee688c",
    "metadata": {},
    "outputs": [
     {
@@ -443,106 +443,15 @@
     }
    ],
    "source": [
-    "# Use the base url to create an absolute url\n",
+    "# Use the base URL to create an absolute URL\n",
     "img_url = f'https://spaceimages-mars.com/{img_url_rel}'\n",
     "img_url"
    ]
   },
   {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "### Mars Facts"
-   ]
-  },
-  {
    "cell_type": "code",
    "execution_count": 13,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>0</th>\n",
-       "      <th>1</th>\n",
-       "      <th>2</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>Mars - Earth Comparison</td>\n",
-       "      <td>Mars</td>\n",
-       "      <td>Earth</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>Diameter:</td>\n",
-       "      <td>6,779 km</td>\n",
-       "      <td>12,742 km</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>Mass:</td>\n",
-       "      <td>6.39 × 10^23 kg</td>\n",
-       "      <td>5.97 × 10^24 kg</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>Moons:</td>\n",
-       "      <td>2</td>\n",
-       "      <td>1</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>Distance from Sun:</td>\n",
-       "      <td>227,943,824 km</td>\n",
-       "      <td>149,598,262 km</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "                         0                1                2\n",
-       "0  Mars - Earth Comparison             Mars            Earth\n",
-       "1                Diameter:         6,779 km        12,742 km\n",
-       "2                    Mass:  6.39 × 10^23 kg  5.97 × 10^24 kg\n",
-       "3                   Moons:                2                1\n",
-       "4       Distance from Sun:   227,943,824 km   149,598,262 km"
-      ]
-     },
-     "execution_count": 13,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "df = pd.read_html('https://galaxyfacts-mars.com')[0]\n",
-    "df.head()"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 14,
+   "id": "49cb1c48",
    "metadata": {},
    "outputs": [
     {
@@ -570,7 +479,7 @@
        "      <th>Earth</th>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th>Description</th>\n",
+       "      <th>description</th>\n",
        "      <th></th>\n",
        "      <th></th>\n",
        "    </tr>\n",
@@ -617,7 +526,7 @@
       ],
       "text/plain": [
        "                                    Mars            Earth\n",
-       "Description                                              \n",
+       "description                                              \n",
        "Mars - Earth Comparison             Mars            Earth\n",
        "Diameter:                       6,779 km        12,742 km\n",
        "Mass:                    6.39 × 10^23 kg  5.97 × 10^24 kg\n",
@@ -627,29 +536,31 @@
        "Temperature:                -87 to -5 °C      -88 to 58°C"
       ]
      },
-     "execution_count": 14,
+     "execution_count": 13,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "df.columns=['Description', 'Mars', 'Earth']\n",
-    "df.set_index('Description', inplace=True)\n",
+    "df = pd.read_html('https://galaxyfacts-mars.com')[0]\n",
+    "df.columns=['description', 'Mars', 'Earth']\n",
+    "df.set_index('description', inplace=True)\n",
     "df"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 14,
+   "id": "c0df7915",
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "'<table border=\"1\" class=\"dataframe\">\\n  <thead>\\n    <tr style=\"text-align: right;\">\\n      <th></th>\\n      <th>Mars</th>\\n      <th>Earth</th>\\n    </tr>\\n    <tr>\\n      <th>Description</th>\\n      <th></th>\\n      <th></th>\\n    </tr>\\n  </thead>\\n  <tbody>\\n    <tr>\\n      <th>Mars - Earth Comparison</th>\\n      <td>Mars</td>\\n      <td>Earth</td>\\n    </tr>\\n    <tr>\\n      <th>Diameter:</th>\\n      <td>6,779 km</td>\\n      <td>12,742 km</td>\\n    </tr>\\n    <tr>\\n      <th>Mass:</th>\\n      <td>6.39 × 10^23 kg</td>\\n      <td>5.97 × 10^24 kg</td>\\n    </tr>\\n    <tr>\\n      <th>Moons:</th>\\n      <td>2</td>\\n      <td>1</td>\\n    </tr>\\n    <tr>\\n      <th>Distance from Sun:</th>\\n      <td>227,943,824 km</td>\\n      <td>149,598,262 km</td>\\n    </tr>\\n    <tr>\\n      <th>Length of Year:</th>\\n      <td>687 Earth days</td>\\n      <td>365.24 days</td>\\n    </tr>\\n    <tr>\\n      <th>Temperature:</th>\\n      <td>-87 to -5 °C</td>\\n      <td>-88 to 58°C</td>\\n    </tr>\\n  </tbody>\\n</table>'"
+       "'<table border=\"1\" class=\"dataframe\">\\n  <thead>\\n    <tr style=\"text-align: right;\">\\n      <th></th>\\n      <th>Mars</th>\\n      <th>Earth</th>\\n    </tr>\\n    <tr>\\n      <th>description</th>\\n      <th></th>\\n      <th></th>\\n    </tr>\\n  </thead>\\n  <tbody>\\n    <tr>\\n      <th>Mars - Earth Comparison</th>\\n      <td>Mars</td>\\n      <td>Earth</td>\\n    </tr>\\n    <tr>\\n      <th>Diameter:</th>\\n      <td>6,779 km</td>\\n      <td>12,742 km</td>\\n    </tr>\\n    <tr>\\n      <th>Mass:</th>\\n      <td>6.39 × 10^23 kg</td>\\n      <td>5.97 × 10^24 kg</td>\\n    </tr>\\n    <tr>\\n      <th>Moons:</th>\\n      <td>2</td>\\n      <td>1</td>\\n    </tr>\\n    <tr>\\n      <th>Distance from Sun:</th>\\n      <td>227,943,824 km</td>\\n      <td>149,598,262 km</td>\\n    </tr>\\n    <tr>\\n      <th>Length of Year:</th>\\n      <td>687 Earth days</td>\\n      <td>365.24 days</td>\\n    </tr>\\n    <tr>\\n      <th>Temperature:</th>\\n      <td>-87 to -5 °C</td>\\n      <td>-88 to 58°C</td>\\n    </tr>\\n  </tbody>\\n</table>'"
       ]
      },
-     "execution_count": 15,
+     "execution_count": 14,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -659,22 +570,9 @@
    ]
   },
   {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "# D1: Scrape High-Resolution Mars’ Hemisphere Images and Titles"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "### Hemispheres"
-   ]
-  },
-  {
    "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 15,
+   "id": "695099a5",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -686,7 +584,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
+   "execution_count": 16,
+   "id": "8b9abc64",
    "metadata": {},
    "outputs": [
     {
@@ -717,8 +616,11 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
-   "metadata": {},
+   "execution_count": 17,
+   "id": "3f31b59f",
+   "metadata": {
+    "scrolled": true
+   },
    "outputs": [
     {
      "data": {
@@ -733,7 +635,7 @@
        "  'title': 'Valles Marineris Hemisphere Enhanced'}]"
       ]
      },
-     "execution_count": 18,
+     "execution_count": 17,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -746,16 +648,17 @@
   {
    "cell_type": "code",
    "execution_count": 19,
+   "id": "5fbe3427",
    "metadata": {},
    "outputs": [],
    "source": [
-    "# 5. Quit the browser\n",
     "browser.quit()"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": null,
+   "id": "54cad5a8",
    "metadata": {},
    "outputs": [],
    "source": []
@@ -778,11 +681,8 @@
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
    "version": "3.9.7"
-  },
-  "nteract": {
-   "version": "0.15.0"
   }
  },
  "nbformat": 4,
- "nbformat_minor": 4
+ "nbformat_minor": 5
 }
