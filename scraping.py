@@ -22,6 +22,7 @@ def scrape_all():
         "last_modified": dt.datetime.now(),
         "hemispheres": hemispheres(browser)
     }
+    print(data)
 
     # Stop webdriver and return data
     browser.quit()
@@ -105,11 +106,20 @@ def hemispheres(browser):
     hemisphere_image_urls = []
 
     for i in range(4):
+        # browser.find_by_css('a.product-item h3')[i].click()
+        # hemisphere_image_urls.append(hemispheres)
+        # browser.back()
+        hemispheres2 = {}
         browser.find_by_css('a.product-item h3')[i].click()
-        hemisphere_image_urls.append(hemispheres)
+        element = browser.find_link_by_text('Sample').first
+        img_url = element['href']
+        title = browser.find_by_css("h2.title").text
+        hemispheres2["img_url"] = img_url
+        hemispheres2["title"] = title
+        hemisphere_image_urls.append(hemispheres2)
         browser.back()
     return hemisphere_image_urls
 
-if __name__ == "__main__":    
-    # If running as script, print scraped data
-    print(scrape_all())
+# if __name__ == "__main__":    
+#     # If running as script, print scraped data
+#     print(scrape_all())
