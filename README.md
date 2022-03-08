@@ -1,5 +1,5 @@
 # Mission-to-Mars
-Module 10 Mission to Mars - Web Scraping with HTML/CSS (Grade  /100)
+Module 10 Mission to Mars - Web Scraping with HTML/CSS (Grade  100/100)
 ###### Project Overview
 - **Deliverable 1:** Scrape Full-Resolution Mars Hemisphere Images and Titles
     - Using BeautifulSoup and Splinter, scrape full-resolution images of Mars’s hemispheres and the titles of those images.
